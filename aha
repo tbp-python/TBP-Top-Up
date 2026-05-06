@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TBP Shop</title>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .auth-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #003366; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .login-btn { background: #003366; color: white; }
+        .toggle-link { margin-top: 15px; font-size: 14px; color: #555; cursor: pointer; display: block; }
+        .toggle-link span { color: #003366; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="auth-card" id="loginBox">
+    <div class="logo">TBP SHOP</div>
+    <h3 style="color:#333;">লগইন করুন</h3>
+    <input type="text" id="logUser" placeholder="ইউজারনেম দিন">
+    <input type="password" id="logPass" placeholder="পাসওয়ার্ড দিন">
+    <button class="btn login-btn" onclick="handleLogin()">Login</button>
+    <a class="toggle-link" onclick="toggleAuth()">অ্যাকাউন্ট নেই? <span>Register</span></a>
+</div>
+
+<div class="auth-card" id="signupBox" style="display: none;">
+    <div class="logo">TBP SHOP</div>
+    <h3 style="color:#333;">নতুন অ্যাকাউন্ট</h3>
+    <input type="text" id="regName" placeholder="আপনার নাম">
+    <input type="text" id="regUser" placeholder="নতুন ইউজারনেম">
+    <input type="password" id="regPass" placeholder="পাসওয়ার্ড">
+    <button class="btn login-btn" onclick="handleSignup()">Sign Up</button>
+    <a class="toggle-link" onclick="toggleAuth()">অ্যাকাউন্ট আছে? <span>Login</span></a>
+</div>
+
+<script>
+    function toggleAuth() {
+        const login = document.getElementById('loginBox');
+        const signup = document.getElementById('signupBox');
+        login.style.display = (login.style.display === "none") ? "block" : "none";
+        signup.style.display = (signup.style.display === "none") ? "block" : "none";
+    }
+
+    function handleSignup() {
+        const user = document.getElementById('regUser').value;
+        const pass = document.getElementById('regPass').value;
+        const name = document.getElementById('regName').value;
+        if(!user || !pass) return alert("সব ঘর পূরণ করুন!");
+        
+        localStorage.setItem('u_'+user, pass); // সাময়িকভাবে ব্রাউজারে সেভ
+        localStorage.setItem('n_'+user, name);
+        alert("অ্যাকাউন্ট তৈরি! এখন লগইন করুন।");
+        toggleAuth();
+    }
+
+    function handleLogin() {
+        const user = document.getElementById('logUser').value;
+        const pass = document.getElementById('logPass').value;
+        if(localStorage.getItem('u_'+user) === pass && pass !== null) {
+            localStorage.setItem('currentUser', user);
+            window.location.href = "order.html";
+        } else {
+            alert("ভুল ইউজারনেম বা পাসওয়ার্ড!");
+        }
+    }
+</script>
+</body>
+</html>
